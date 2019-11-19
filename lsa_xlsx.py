@@ -7,6 +7,7 @@ from pprint import pprint
 file_path = 'sample2.xlsx'
 data = pd.read_excel(file_path)
 
+
 groups = ['group1', 'group2', 'group3', 'group4', 'group5', 'group6']
 values = ['value1', 'value2', 'value3', 'value4', 'value5', 'value6']
 words = []
@@ -35,6 +36,8 @@ weighted_corpus = [[] for _ in range(group_len)]
 for g in range(group_len):
     for w in range(n_items):
         tag = data[groups[g]][w]
+        # _weight = data.loc[data[groups[g]]==tag, values[g]]
+        # weight = pd.to_numeric(_weight, errors='coerce')
         weight = float(data.loc[data[groups[g]]==tag, values[g]])
         corpus_id = [k for k, v in word_dict.items() if v == tag]
         corpus_id = corpus_id[0]
