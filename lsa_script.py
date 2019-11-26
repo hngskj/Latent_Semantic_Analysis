@@ -4,7 +4,7 @@ import gensim
 from pprint import pprint
 
 
-file_path = 'sample2.xlsx'
+file_path = 'word-document_matrix.xlsx'
 data = pd.read_excel(file_path)
 
 
@@ -36,8 +36,6 @@ weighted_corpus = [[] for _ in range(group_len)]
 for g in range(group_len):
     for w in range(n_items):
         tag = data[groups[g]][w]
-        # _weight = data.loc[data[groups[g]]==tag, values[g]]
-        # weight = pd.to_numeric(_weight, errors='coerce')
         weight = float(data.loc[data[groups[g]]==tag, values[g]])
         corpus_id = [k for k, v in word_dict.items() if v == tag]
         corpus_id = corpus_id[0]
@@ -63,7 +61,9 @@ a_hat = np.delete(a_hat, 0, axis=0)
 print("\nMATRIX A_hat")
 pprint(a_hat)
 
-query =  ['art', 'contemporary', 'artist', 'gallery', 'painting']
+
+query = ['art', 'drawing', 'illustration', 'design', 'interior', 'fashion']
+# query =  ['art', 'contemporary', 'artist', 'gallery', 'painting']
 # query =  ['davidhockney', 'seoulmuseumofart', 'stainlesssteel', 'ShinGallery', 'photooftheday', 'seoul', 'rustique']
 idx = [0 for _ in range(word_dict_len)]
 for i, word in word_dict.items():
