@@ -5,12 +5,13 @@ from pprint import pprint
 import json
 
 
-file_path = 'word-document_matrix.xlsx'
+
+file_path = 'word-document_matrix lee.xlsx'
 data = pd.read_excel(file_path)
 
 
-groups = ['group1', 'group2', 'group3', 'group4', 'group5', 'group6']
-values = ['value1', 'value2', 'value3', 'value4', 'value5', 'value6']
+groups = ['group1', 'group2', 'group3', 'group4', 'group5']
+values = ['value1', 'value2', 'value3', 'value4', 'value5']
 words = []
 n_items = len(data.index)
 group_len = len(groups)
@@ -62,38 +63,45 @@ a_hat = np.delete(a_hat, 0, axis=0)
 print("\nMATRIX A_hat")
 pprint(a_hat)
 
+# word_dict_len, word_dict, u, k, a_hat, q_hat
 data = {'word_dict':word_dict, 
         'word_dict_len':word_dict_len,
-        'u':u.tolist(),
+        'u':u,
         'k':k,
-        'a_hat':a_hat.tolist()}
+        'a_hat':a_hat}
 
-# print(type(k))
-with open('data.json', 'w') as f:
+
+# print(data)
+with open('data lee.json', 'w') as f:
     json.dump(data, f)
+print("WROTE DATA!")
 
 
-query = ['art', 'drawing', 'illustration', 'design', 'interior', 'fashion']
-# query =  ['art', 'contemporary', 'artist', 'gallery', 'painting']
-# query =  ['davidhockney', 'seoulmuseumofart', 'stainlesssteel', 'ShinGallery', 'photooftheday', 'seoul', 'rustique']
-idx = [0 for _ in range(word_dict_len)]
-for i, word in word_dict.items():
-    for q in query:
-        if word == q:
-            idx[i] = 1
-q = np.array(idx)
-print("\nq")
-print(q)
+# with open('data lee.json') as f:
+#     data = json.load(f)
 
-q_hat = np.matmul(np.transpose(u[:,:k]), q)
-print("\nq_hat")
-pprint(q_hat)
+# query = ['art', 'drawing', 'illustration', 'design', 'interior', 'fashion']
+# idx = [0 for _ in range(data['word_dict_len'])]
+# for i, word in data['word_dict'].items():
+#     for q in query:
+#         if word == q:
+#             i=int(i)
+#             idx[i] = 1
+# q = np.array(idx)
+# print("\nq")
+# print(q)
 
-print("\nCOSINE SIMILARITY")
-sim_score = []
-for i in range(len(a_hat)):
-    term1 = np.matmul(a_hat[i], np.transpose(q_hat))
-    term2 = np.linalg.norm(a_hat[i]) * np.linalg.norm(q_hat)
-    cos_sim = term1 / term2
-    sim_score.append(format(cos_sim*100, '.8f'))
-pprint(sim_score)
+# # print(type(data['u']))
+# u = np.array(data['u'])
+# q_hat = np.matmul(np.transpose(u[:,:data['k']]), q)
+# print("\nq_hat")
+# pprint(q_hat)
+
+# print("\nCOSINE SIMILARITY")
+# sim_score = []
+# for i in range(len(data['a_hat'])):
+#     term1 = np.matmul(data['a_hat'][i], np.transpose(q_hat))
+#     term2 = np.linalg.norm(data['a_hat'][i]) * np.linalg.norm(q_hat)
+#     cos_sim = term1 / term2
+#     sim_score.append(format(cos_sim*100, '.8f'))
+# pprint(sim_score)
